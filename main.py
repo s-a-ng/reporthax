@@ -13,6 +13,11 @@ def threaded(func):
         return thread
     return wrapper
 
+def log(message):
+    requests.post(tunnel + "/log", {
+        "id": action_id,
+        "message": message
+    })
 
 def start_report(cookie, id):
     url = f'https://www.roblox.com/abusereport/asset?id={id}&redirecturl=%2fcatalog%2f{id}%2funnamed'
@@ -37,6 +42,9 @@ def start_report(cookie, id):
         })
         if report.status_code == 429:
             break
+        else:
+            print("Reported")
+            log("Reported item successfully")
         time.sleep(0.5) 
 
 @threaded
@@ -55,6 +63,7 @@ ACCOUNTS_TO_USE = 3
 
 for i in range(ACCOUNTS_TO_USE):
     cookie = requests.get(tunnel + "/get_cookie").text
+    print("got cookie")
     start_report(cookie, id)
 
 requests.post(tunnel + "/done", {
