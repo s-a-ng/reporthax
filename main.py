@@ -1,5 +1,18 @@
 import sys
 import requests, re, time
+import threading
+
+action_id = sys.argv[1]
+tunnel = sys.argv[2]
+
+
+def threaded(func):
+    def wrapper(*args, **kwargs):
+        thread = threading.Thread(target=func, args=args, kwargs=kwargs)
+        thread.start()
+        return thread
+    return wrapper
+
 
 def start_report(cookie, id):
     url = f'https://www.roblox.com/abusereport/asset?id={id}&redirecturl=%2fcatalog%2f{id}%2funnamed'
@@ -26,23 +39,24 @@ def start_report(cookie, id):
             break
         time.sleep(0.5) 
 
+@threaded
+def pinger():
+    while True:
+        requests.post(tunnel + "/ping", {
+            id : action_id
+        })
+        time.sleep(3)
 
-def main():
-    action_id = sys.argv[1]
-    tunnel = sys.argv[2]
+pinger()
 
-    id = 18102169073
-    ACCOUNTS_TO_USE = 3
-
-
-    for i in range(ACCOUNTS_TO_USE):
-        cookie = requests.get(tunnel + "/get_cookie").text
-        start_report(cookie, id)
-
-    requests.post(tunnel + "/done", {
-        id : action_id
-    })
+id = 18102169073
+ACCOUNTS_TO_USE = 3
 
 
-if __name__ == '__main__':
-    main()
+for i in range(ACCOUNTS_TO_USE):
+    cookie = requests.get(tunnel + "/get_cookie").text
+    start_report(cookie, id)
+
+requests.post(tunnel + "/done", {
+    id : action_id
+})
