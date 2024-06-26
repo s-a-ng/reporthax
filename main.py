@@ -56,7 +56,7 @@ def pinger():
         time.sleep(3)
 
 pinger()
-
+log("connected")
 id = 18102169073
 ACCOUNTS_TO_USE = 3
 
