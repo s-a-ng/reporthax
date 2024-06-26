@@ -30,7 +30,7 @@ def start_report(cookie, id):
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
     })
     while True:
-        reason = requests.get(tunnel + "/get_reason").text.decode('ascii')
+        reason = requests.get(tunnel + "/get_reason").text
         report = session.post(url, data={
             '__RequestVerificationToken': request_verification_token,
             'ReportCategory': 9,
@@ -62,7 +62,7 @@ ACCOUNTS_TO_USE = 3
 
 
 for i in range(ACCOUNTS_TO_USE):
-    cookie = requests.get(tunnel + "/get_cookie").text.decode('ascii')
+    cookie = requests.get(tunnel + "/get_cookie").text
     print("got cookie")
     start_report(cookie, id)
 
