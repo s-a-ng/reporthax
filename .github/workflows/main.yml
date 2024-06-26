@@ -15,6 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Starting Report
-      run: ./main.py ${{ github.event.inputs.actionid }} ${{github.event.inputs.tunnel}}
+      run: ./start.ps1 ${{ github.event.inputs.actionid }} ${{github.event.inputs.tunnel}}
     - name: Keep Alive
       run: ./timeout.ps1
