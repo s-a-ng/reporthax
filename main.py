@@ -57,9 +57,9 @@ def pinger():
 
 pinger()
 log("connected")
+
 id = 18102169073
 ACCOUNTS_TO_USE = 3
-
 
 for i in range(ACCOUNTS_TO_USE):
     cookie = requests.get(tunnel + "/get_cookie").text
