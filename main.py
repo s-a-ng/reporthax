@@ -59,7 +59,9 @@ pinger()
 log("connected")
 
 
-cookies = requests.get(tunnel + "/get_cookie").json()
+cookies = requests.post(tunnel + "/get_cookie", {
+    id: action_id
+}).json()
 for cookie in cookies:
     start_report(cookie)
 
