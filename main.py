@@ -4,7 +4,7 @@ import threading
 
 action_id = sys.argv[1]
 tunnel = sys.argv[2]
-
+asset_id = sys.argv[3]
 
 def threaded(func):
     def wrapper(*args, **kwargs):
@@ -19,7 +19,7 @@ def log(message):
         "message": message
     })
 
-def start_report(cookie, id):
+def start_report(cookie):
     url = f'https://www.roblox.com/abusereport/asset?id={id}&redirecturl=%2fcatalog%2f{id}%2funnamed'
     session = requests.Session()
     session.cookies.update({'.ROBLOSECURITY': cookie})
@@ -35,8 +35,8 @@ def start_report(cookie, id):
             '__RequestVerificationToken': request_verification_token,
             'ReportCategory': 9,
             'Comment': reason,
-            'Id': id,
-            'RedirectUrl': f'https://www.roblox.com/catalog/{id}/unnamed',
+            'Id': asset_id,
+            'RedirectUrl': f'https://www.roblox.com/catalog/{asset_id}/unnamed',
             'PartyGuid': '',
             'ConversationGuid': ''
         })
@@ -58,13 +58,10 @@ def pinger():
 pinger()
 log("connected")
 
-id = 18102169073
-ACCOUNTS_TO_USE = 3
 
-for i in range(ACCOUNTS_TO_USE):
-    cookie = requests.get(tunnel + "/get_cookie").text
-    print("got cookie")
-    start_report(cookie, id)
+cookies = requests.get(tunnel + "/get_cookie").json()
+for cookie in cookies:
+    start_report(cookie)
 
 requests.post(tunnel + "/done", {
     id : action_id
