@@ -61,7 +61,9 @@ log("connected")
 
 cookies = requests.post(tunnel + "/get_cookie", {
     "id": action_id
-}).json()
+})
+print(cookies.content)
+cookies = cookies.json()
 for cookie in cookies:
     start_report(cookie)
 
