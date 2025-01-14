@@ -23,9 +23,15 @@ def start_report(cookie):
     url = f'https://www.roblox.com/abusereport/asset?id={asset_id}&redirecturl=%2fcatalog%2f{asset_id}%2funnamed'
     session = requests.Session()
     session.cookies.update({'.ROBLOSECURITY': cookie})
-    data = session.get(url).text
-    print(data)
-    request_verification_token = re.search('<input name="__RequestVerificationToken" type="hidden" value="(.+)"', data).group(1)
+    while True:
+        data = session.get(url).text
+        request_verification_token = re.search('<input name="__RequestVerificationToken" type="hidden" value="(.+)"', data)
+        if request_verification_token:
+            break
+        print("didnt find token, retrying")
+        time.sleep(.4)
+    request_verification_token = request_verification_token.group(1)
+    
     session.headers.update({
         'Origin': 'https://www.roblox.com',
         'Referer': url,
