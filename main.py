@@ -63,14 +63,19 @@ def pinger():
         })
         time.sleep(3)
 
+        
+        
+requests.post(tunnel + "/init", json={
+    "id" : action_id
+})
+
 pinger()
 log("connected")
-
 
 cookies = requests.post(tunnel + "/get_cookie", json={
     "id": action_id
 })
-print(cookies.content)
+
 cookies = cookies.json()
 for cookie in cookies:
     start_report(cookie.strip())
