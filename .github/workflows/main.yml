@@ -7,7 +7,9 @@ on:
         required: true
       tunnel:
         required: true
-  
+      assetid:
+        required: true
+        
 jobs:
   build:
     runs-on: windows-latest
@@ -15,6 +17,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Starting Report
-      run: ./start.ps1 ${{ github.event.inputs.actionid }} ${{github.event.inputs.tunnel}}
+      run: ./start.ps1 ${{ github.event.inputs.actionid }} ${{github.event.inputs.tunnel}} ${{github.event.inputs.assetid}}
     - name: Keep Alive
       run: ./timeout.ps1
