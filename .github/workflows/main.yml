@@ -18,5 +18,3 @@ jobs:
     - uses: actions/checkout@v2
     - name: Starting Report
       run: ./start.ps1 ${{ github.event.inputs.actionid }} ${{github.event.inputs.tunnel}} ${{github.event.inputs.assetid}}
-    - name: Keep Alive
-      run: ./timeout.ps1
