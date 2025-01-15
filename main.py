@@ -48,6 +48,7 @@ def start_report(cookie):
             'PartyGuid': '',
             'ConversationGuid': ''
         })
+        print(report.content)
         if report.status_code == 429:
             break
         else:
