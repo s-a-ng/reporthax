@@ -41,7 +41,7 @@ def start_report(cookie):
         reason = requests.get(tunnel + "/get_reason").text
         report = session.post(url, data={
             '__RequestVerificationToken': request_verification_token,
-            'ReportCategory': 9,
+            'ReportCategory': 1,
             'Comment': reason,
             'Id': asset_id,
             'RedirectUrl': f'https://www.roblox.com/catalog/{asset_id}/unnamed',
