@@ -9,6 +9,7 @@ asset_id = sys.argv[3]
 def threaded(func):
     def wrapper(*args, **kwargs):
         thread = threading.Thread(target=func, args=args, kwargs=kwargs)
+        thread.daemon = True
         thread.start()
         return thread
     return wrapper
@@ -48,7 +49,7 @@ def start_report(cookie):
             'PartyGuid': '',
             'ConversationGuid': ''
         })
-        print(report.content)
+        log(str(report.content))
         if report.status_code == 429:
             break
         else:
